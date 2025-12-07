@@ -1,4 +1,14 @@
-import { camera } from "ionicons/icons";
+/*
+editorcoder
+SRJC CS55.13 Fall 2025
+Weeks 16-17: Assignment 16: Final Hybrid Mobile App  
+Tab2.tsx
+2025-12-07
+*/
+
+// Tab 2
+
+// Import Ionic components
 import {
   IonContent,
   IonHeader,
@@ -14,6 +24,7 @@ import {
   IonImg,
 } from "@ionic/react";
 import { usePhotoGallery } from "../hooks/usePhotoGallery";
+import Header from "../components/Header";
 import "./Tab2.css";
 
 const Tab2: React.FC = () => {
@@ -22,16 +33,26 @@ const Tab2: React.FC = () => {
   return (
     <IonPage>
       <IonHeader>
-        <IonToolbar>
-          <IonTitle>Photo Gallery</IonTitle>
+        <IonToolbar className="header-toolbar">
+          <IonTitle>
+            <div className="header-content">
+              <Header />
+            </div>
+          </IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>
         <IonHeader collapse="condense">
-          <IonToolbar>
-            <IonTitle size="large">Photo Gallery</IonTitle>
+          <IonToolbar className="header-toolbar">
+            <IonTitle size="large">
+              <div className="header-content">
+                <Header />
+              </div>
+            </IonTitle>
           </IonToolbar>
         </IonHeader>
+
+        <h2>Photo App</h2>
 
         {/* Add a grid component to display the photos */}
         <IonGrid>

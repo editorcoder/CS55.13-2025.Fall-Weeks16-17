@@ -1,0 +1,25 @@
+/*
+editorcoder
+SRJC CS55.13 Fall 2025
+Weeks 16-17: Assignment 16: Final Hybrid Mobile App 
+BackToHomeLink.module.css
+2025-12-07
+*/
+
+.backToHomeContainer {
+  margin: var(--spacing-4xl) auto;
+  text-align: center;
+}
+
+.backToHomeButton {
+  padding: var(--spacing-lg) var(--spacing-3xl);
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--color-dark);
+  background-color: var(--color-dark);
+  border: solid 0.1rem var(--color-dark);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  color: var(--color-light);
+}
+

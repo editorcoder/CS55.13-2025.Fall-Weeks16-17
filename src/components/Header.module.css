@@ -1,0 +1,29 @@
+/*
+editorcoder
+SRJC CS55.13 Fall 2025
+Weeks 16-17: Assignment 16: Final Hybrid Mobile App  
+Header.module.css
+2025-12-07
+*/
+
+.logo {
+  display: flex;
+  align-items: center;
+  color: var(--color-white);
+  text-decoration: none;
+  font-size: 1.25rem;
+  font-weight: 500;
+}
+
+.logo img {
+  margin-inline-end: 10px;
+}
+
+.logoIcon {
+  font-size: 1.25rem; /* Match header text size */
+  font-weight: 500;
+  line-height: 1.4; /* Match header line-height */
+  display: inline-block;
+  vertical-align: middle;
+}
+

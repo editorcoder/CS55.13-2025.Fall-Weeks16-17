@@ -1,0 +1,14 @@
+/*
+editorcoder
+SRJC CS55.13 Fall 2025
+Weeks 16-17: Assignment 16: Final Hybrid Mobile App  
+Tab2.css
+2025-12-07
+*/
+
+/* Center the camera FAB horizontally */
+ion-fab {
+  left: 50%;
+  transform: translateX(-50%);
+}
+
