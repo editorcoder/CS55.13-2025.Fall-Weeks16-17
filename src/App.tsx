@@ -28,6 +28,8 @@ import AvatarDetail from "./pages/AvatarDetail";
 import TerritoryDetail from "./pages/TerritoryDetail";
 // Import TabBar component
 import TabBar from "./components/TabBar";
+// Import PhotoGalleryProvider
+import { PhotoGalleryProvider } from "./contexts/PhotoGalleryContext";
 
 /* Core CSS required for Ionic components to work properly */
 import "@ionic/react/css/core.css";
@@ -50,11 +52,12 @@ setupIonicReact();
 
 // Main app component
 const App: React.FC = () => (
-  <IonApp>
-    {/* Render Ionic React Router */}
-    <IonReactRouter>
-      {/* Render Ionic tabs container */}
-      <IonTabs>
+  <PhotoGalleryProvider>
+    <IonApp>
+      {/* Render Ionic React Router */}
+      <IonReactRouter>
+        {/* Render Ionic tabs container */}
+        <IonTabs>
         {/* Render router outlet for routes */}
         <IonRouterOutlet>
           {/* Route for Tab1 (Card Gallery) */}
@@ -91,6 +94,7 @@ const App: React.FC = () => (
       </IonTabs>
     </IonReactRouter>
   </IonApp>
+  </PhotoGalleryProvider>
 );
 
 // Export app component as default
