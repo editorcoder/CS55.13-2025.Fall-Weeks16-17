@@ -5,7 +5,7 @@ const config: CapacitorConfig = {
   // Set application ID for native builds
   appId: 'io.ionic.starter',
   // Set application display name
-  appName: 'photo-gallery',
+  appName: 'TCTCG Card Gallery',
   // Set web directory for built files
   webDir: 'dist'
 };

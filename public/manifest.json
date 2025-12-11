@@ -1,6 +1,6 @@
 {
-  "short_name": "Ionic App",
-  "name": "My Ionic App",
+  "short_name": "TCTCG Gallery",
+  "name": "TCTCG Card Gallery",
   "icons": [
     {
       "src": "assets/icon/favicon.png",

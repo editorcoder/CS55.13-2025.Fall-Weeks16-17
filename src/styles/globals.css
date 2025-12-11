@@ -228,6 +228,7 @@ ion-tab-bar {
   background-color: var(--color-dark);
   --color: var(--color-white);
   color: var(--color-white);
+  padding-bottom: max(env(safe-area-inset-bottom), 20px);
 }
 
 ion-tab-button {
