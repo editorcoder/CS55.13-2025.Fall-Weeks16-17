@@ -3,7 +3,7 @@ editorcoder
 SRJC CS55.13 Fall 2025
 Weeks 16-17: Assignment 16: Final Hybrid Mobile App  
 Card.module.css
-2025-12-07
+2025-12-10
 */
 
 /* Card Container Styles */
@@ -47,24 +47,23 @@ Card.module.css
   min-height: var(--spacing-card-height);
   position: relative;
   overflow: visible;
-}
 
-.cardSingle:hover,
-.cardPageCard:hover {
-  box-shadow: var(--shadow-card-hover);
+  &:hover {
+    box-shadow: var(--shadow-card-hover);
+  }
 }
 
 /* Card Variants */
 .cardSingle {
   width: var(--spacing-card-width);
   height: var(--spacing-card-height);
-}
 
-.cardSingle > * {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  min-height: 0;
+  > * {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+  }
 }
 
 .cardPageCard {
@@ -83,59 +82,59 @@ Card.module.css
   background-color: var(--color-antiquewhite);
   font-size: 0.9rem;
   box-sizing: border-box;
-}
 
-.cardPageDetails .detailsTitle {
-  font-variant: small-caps;
-  font-size: 1.1rem;
-  font-weight: 700;
-}
+  .detailsTitle {
+    font-variant: small-caps;
+    font-size: 1.1rem;
+    font-weight: 700;
+  }
 
-.cardPageDetails h3 {
-  margin: 0 0 var(--spacing-3xl) 0;
-}
+  h3 {
+    margin: 0 0 var(--spacing-3xl) 0;
+  }
 
-.cardPageDetails h4 {
-  margin: var(--spacing-3xl) 0 0.4rem 0;
-  text-decoration: underline;
-}
+  h4 {
+    margin: var(--spacing-3xl) 0 0.4rem 0;
+    text-decoration: underline;
+  }
 
-.cardPageDetails p {
-  margin: 0.2rem 0 0.2rem 0;
-}
+  p {
+    margin: 0.2rem 0 0.2rem 0;
+  }
 
-.cardPageDetails .cardPhotoCredit a {
-  color: var(--color-dark);
-  text-decoration: underline;
-}
+  .cardPhotoCredit a {
+    color: var(--color-dark);
+    text-decoration: underline;
+  }
 
-.cardPageDetails .cardDetailsHeader {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: var(--spacing-3xl);
-}
+  .cardDetailsHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: var(--spacing-3xl);
 
-.cardPageDetails .cardDetailsHeader h3 {
-  margin: 0;
-}
+    h3 {
+      margin: 0;
+    }
+  }
 
-.cardPageDetails .showCardLink {
-  display: none;
-  color: var(--color-dark);
-  text-decoration: underline;
-  font-size: 0.9rem;
-  padding: 0.2rem 0.5rem;
-  border-radius: var(--radius-sm);
-  transition: background-color 0.2s;
-  border: none;
-  background: none;
-  cursor: pointer;
-  font-family: inherit;
-}
+  .showCardLink {
+    display: none;
+    color: var(--color-dark);
+    text-decoration: underline;
+    font-size: 0.9rem;
+    padding: 0.2rem 0.5rem;
+    border-radius: var(--radius-sm);
+    transition: background-color 0.2s;
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-family: inherit;
 
-.cardPageDetails .showCardLink:hover {
-  background-color: rgba(0, 0, 0, 0.05);
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.05);
+    }
+  }
 }
 
 /* Card Color Classes */
@@ -260,22 +259,22 @@ Card.module.css
   right: 0;
   gap: 0.225rem;
   font-size: 1rem;
-}
 
-.cardStat.cardStatCatnip {
-  bottom: 9rem;
-}
+  &.cardStatCatnip {
+    bottom: 9rem;
+  }
 
-.cardStat.cardStatDefense {
-  bottom: 6.3rem;
-}
+  &.cardStatDefense {
+    bottom: 6.3rem;
+  }
 
-.cardStat.cardStatAttack {
-  bottom: 3.6rem;
-}
+  &.cardStatAttack {
+    bottom: 3.6rem;
+  }
 
-.cardStat.cardStatLives {
-  bottom: 0.9rem;
+  &.cardStatLives {
+    bottom: 0.9rem;
+  }
 }
 
 .cardStatIcon {
@@ -378,15 +377,6 @@ Card.module.css
   }
 
   .cardMechanics {
-    font-size: 0.95rem;
-  }
-
-  .cardLore {
-    font-style: italic;
-    margin: 0 calc(-1 * var(--spacing-2xl)) 0 calc(-1 * var(--spacing-2xl));
-    padding: var(--spacing-md) var(--spacing-2xl);
-    background-color: var(--color-card-lore-bg);
-    margin-top: auto;
     font-size: 0.95rem;
   }
 }

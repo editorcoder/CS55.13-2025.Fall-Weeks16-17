@@ -3,7 +3,7 @@ editorcoder
 SRJC CS55.13 Fall 2025
 Weeks 16-17: Assignment 16: Final Hybrid Mobile App  
 Tag.tsx
-2025-12-07
+2025-12-10
 */
 
 // Card filter tag
@@ -16,14 +16,18 @@ interface TagProps {
 
 // Tag component
 export default function Tag({ type, value, updateField }: TagProps) {
+  // Return tag element with remove button
   return (
     <span className="">
+      {/* Display tag value */}
       {value}
+      {/* Render remove button */}
       <button
         type="button"
         aria-label="Remove"
         onClick={() => updateField(type, "")}
       >
+        {/* Display X icon */}
         X
       </button>
     </span>

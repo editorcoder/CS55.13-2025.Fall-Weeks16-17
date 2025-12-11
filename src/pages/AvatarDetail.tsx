@@ -3,46 +3,74 @@ editorcoder
 SRJC CS55.13 Fall 2025
 Weeks 16-17: Assignment 16: Final Hybrid Mobile App  
 AvatarDetail.tsx
-2025-12-07
+2025-12-10
 */
 
+// Import Ionic React UI components
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonSpinner } from '@ionic/react';
+// Import React hooks for state, side effects, and refs
 import { useEffect, useState, useRef } from 'react';
+// Import React Router hooks
 import { useParams } from 'react-router-dom';
+// Import local components
 import Header from '../components/Header';
 import BackToHomeLink from '../components/BackToHomeLink';
+// Import WordPress data functions
 import { getAvatarData } from '../lib/wordpress/avatars';
+// Import TypeScript types
 import type { Avatar } from '../lib/wordpress/types';
+// Import Card CSS styles
 import styles from '../components/Card.module.css';
 
+// AvatarDetail component for displaying avatar details
 const AvatarDetail: React.FC = () => {
+  // Get avatar ID from URL parameters
   const { id } = useParams<{ id: string }>();
+  // Initialize card data state
   const [cardData, setCardData] = useState<Avatar | null>(null);
+  // Initialize loading state
   const [loading, setLoading] = useState(true);
+  // Initialize error state
   const [error, setError] = useState<string | null>(null);
+  // Create ref for card element
   const cardRef = useRef<HTMLElement>(null);
 
+  // Fetch card data when ID changes
   useEffect(() => {
+    // Async function to fetch card data
     const fetchCardData = async () => {
+      // Check if ID exists
       if (!id) {
+        // Set error if no ID provided
         setError('No card ID provided');
+        // Set loading to false
         setLoading(false);
+        // Exit early
         return;
       }
 
+      // Attempt to fetch data
       try {
+        // Set loading to true
         setLoading(true);
+        // Clear any previous errors
         setError(null);
+        // Fetch avatar data from API
         const data = await getAvatarData(id);
+        // Update card data state
         setCardData(data);
       } catch (err) {
+        // Log error to console
         console.error('Error fetching card data:', err);
+        // Set error message
         setError('Failed to load card data. Please try again later.');
       } finally {
+        // Set loading to false when done
         setLoading(false);
       }
     };
 
+    // Call fetch function
     fetchCardData();
   }, [id]);
 

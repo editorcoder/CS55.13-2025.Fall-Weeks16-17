@@ -3,7 +3,7 @@ editorcoder
 SRJC CS55.13 Fall 2025
 Weeks 16-17: Assignment 16: Final Hybrid Mobile App  
 globals.css
-2025-12-07
+2025-12-09
 */
 
 @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
@@ -13,6 +13,7 @@ globals.css
 :root {
   /* Colors */
   --color-dark: #4a3f35;
+  --color-dark-subtle: rgba(255, 255, 255, 0.1);
   --color-light: #efe8dd;
   --color-card-ability: lightsteelblue;
   --color-card-item: thistle;
@@ -22,6 +23,7 @@ globals.css
   --color-border-core-card: lightgray;
   --color-border-avatar: #D9D69D;
   --color-border-territory: #A7A7A7;
+  --color-ionic-button: dodgerblue;
 
   /* Semantic Colors */
   --color-white: white;
@@ -236,9 +238,14 @@ ion-tab-button {
 
 ion-tab-button ion-icon {
   color: var(--color-white);
+  background-color: var(--color-dark-subtle);
+  border-radius: 50%;
+  padding: 0.5rem;
 }
 
 ion-tab-button ion-label {
   color: var(--color-white);
 }
+
+
 

@@ -3,9 +3,10 @@ editorcoder
 SRJC CS55.13 Fall 2025
 Weeks 16-17: Assignment 16: Final Hybrid Mobile App  
 core-cards.ts
-2025-12-07
+2025-12-10
 */
 
+// Import TypeScript types for WordPress API responses and application data structures
 import type { WordPressCoreCardPost, CoreCard } from "./types";
 
 // Define REST endpoint URL
@@ -14,14 +15,19 @@ const coreCardDataURL =
 
 // Helper function to fetch and parse JSON data from WordPress API
 async function fetchCoreCardsData(): Promise<WordPressCoreCardPost[]> {
+  // Declare variable to store parsed JSON data
   let jsonObj: WordPressCoreCardPost[]; // Declare variable to store parsed JSON data
 
+  // Attempt to fetch data from API
   try {
     // Get JSON data from REST endpoint using fetch API
     const response = await fetch(coreCardDataURL);
+    // Check if response is successful
     if (!response.ok) {
+      // Throw error if response is not OK
       throw new Error(`HTTP error! status: ${response.status}`);
     }
+    // Parse JSON response
     jsonObj = await response.json();
   } catch (error) {
     // Handle request errors
@@ -36,16 +42,17 @@ async function fetchCoreCardsData(): Promise<WordPressCoreCardPost[]> {
 export async function getSortedCoreCardsData(): Promise<CoreCard[]> {
   // Read core cards and return metadata sorted by title
   const jsonObj = await fetchCoreCardsData(); // Fetch core cards data from API
-
-  // Sort array by title alphabetically
+  // Sort function to compare core cards by title
   jsonObj.sort(function (a, b) {
-    // Sort array by title in alphabetical order
+    // Get title A with fallback to empty string
     const titleA = a.acf?.title || "";
+    // Get title B with fallback to empty string
     const titleB = b.acf?.title || "";
+    // Compare titles using locale-aware string comparison
     return titleA.localeCompare(titleB); // Compare titles using locale-aware string comparison
   }); // End sort function
 
-  // Process all core cards and get their image URLs
+  // Map each core card to simplified data structure
   const coreCardData = jsonObj.map((item) => {
     return {
       // Return simplified core card object
@@ -73,9 +80,8 @@ export async function getSortedCoreCardsData(): Promise<CoreCard[]> {
 // Return specific core card data (client-side)
 export async function getCoreCardData(id: string | number): Promise<CoreCard> {
   // Read one core card and return data plus metadata
-  const jsonObj = await fetchCoreCardsData(); // Fetch core cards data from API
-
-  // find object value in array that has matching id
+  const jsonObj = await fetchCoreCardsData();
+  // Filter array to find matching core card
   const objMatch = jsonObj.filter((obj) => {
     // Filter array to find core card with matching ID
     return (
@@ -86,6 +92,7 @@ export async function getCoreCardData(id: string | number): Promise<CoreCard> {
 
   // extract object value in filtered array if any
   let objReturned: WordPressCoreCardPost; // Declare variable to store matched core card object
+  // Check if match was found
   if (objMatch.length > 0) {
     // Check if matching core card was found
     objReturned = objMatch[0]; // Use first matching core card
@@ -94,6 +101,7 @@ export async function getCoreCardData(id: string | number): Promise<CoreCard> {
     objReturned = {} as WordPressCoreCardPost; // Set empty object as fallback
   } // End if-else block
 
+  // Return transformed core card data
   return {
     // Return core card data object
     id: objReturned.id ? objReturned.id.toString() : null, // Convert id to string or use null

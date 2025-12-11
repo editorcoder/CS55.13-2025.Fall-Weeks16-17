@@ -3,9 +3,10 @@ editorcoder
 SRJC CS55.13 Fall 2025
 Weeks 16-17: Assignment 16: Final Hybrid Mobile App  
 territories.ts
-2025-12-07
+2025-12-10
 */
 
+// Import TypeScript types for WordPress API responses and application data structures
 import type { WordPressTerritoryPost, Territory } from "./types";
 
 // Define REST endpoint URL
@@ -14,14 +15,19 @@ const territoryDataURL =
 
 // Helper function to fetch and parse JSON data from WordPress API
 async function fetchTerritoriesData(): Promise<WordPressTerritoryPost[]> {
+  // Declare variable to store parsed JSON data
   let jsonObj: WordPressTerritoryPost[]; // Declare variable to store parsed JSON data
 
+  // Attempt to fetch data from API
   try {
     // Get JSON data from REST endpoint using fetch API
     const response = await fetch(territoryDataURL);
+    // Check if response is successful
     if (!response.ok) {
+      // Throw error if response is not OK
       throw new Error(`HTTP error! status: ${response.status}`);
     }
+    // Parse JSON response
     jsonObj = await response.json();
   } catch (error) {
     // Handle request errors
@@ -35,17 +41,18 @@ async function fetchTerritoriesData(): Promise<WordPressTerritoryPost[]> {
 // Return all territory info, sorted by title alphabetically (client-side)
 export async function getSortedTerritoriesData(): Promise<Territory[]> {
   // Read territories and return metadata sorted by title
-  const jsonObj = await fetchTerritoriesData(); // Fetch territories data from API
-
-  // Sort array by title alphabetically
+  const jsonObj = await fetchTerritoriesData();
+  // Sort function to compare territories by title
   jsonObj.sort(function (a, b) {
-    // Sort array by title in alphabetical order
+    // Get title A with fallback to empty string
     const titleA = a.acf?.title || "";
+    // Get title B with fallback to empty string
     const titleB = b.acf?.title || "";
-    return titleA.localeCompare(titleB); // Compare titles using locale-aware string comparison
+    // Compare titles using locale-aware string comparison
+    return titleA.localeCompare(titleB);
   }); // End sort function
 
-  // Process all territories and get their image URLs
+  // Map each territory to simplified data structure
   const territoryData = jsonObj.map((item) => {
     return {
       // Return simplified territory object
@@ -69,8 +76,7 @@ export async function getSortedTerritoriesData(): Promise<Territory[]> {
 export async function getTerritoryData(id: string | number): Promise<Territory> {
   // Read one territory and return data plus metadata
   const jsonObj = await fetchTerritoriesData(); // Fetch territories data from API
-
-  // find object value in array that has matching id
+  // Filter array to find matching territory
   const objMatch = jsonObj.filter((obj) => {
     // Filter array to find territory with matching ID
     return (
@@ -81,6 +87,7 @@ export async function getTerritoryData(id: string | number): Promise<Territory> 
 
   // extract object value in filtered array if any
   let objReturned: WordPressTerritoryPost; // Declare variable to store matched territory object
+  // Check if match was found
   if (objMatch.length > 0) {
     // Check if matching territory was found
     objReturned = objMatch[0]; // Use first matching territory
@@ -89,6 +96,7 @@ export async function getTerritoryData(id: string | number): Promise<Territory> 
     objReturned = {} as WordPressTerritoryPost; // Set empty object as fallback
   } // End if-else block
 
+  // Return transformed territory data
   return {
     // Return territory data object
     id: objReturned.id ? objReturned.id.toString() : null, // Convert id to string or use null

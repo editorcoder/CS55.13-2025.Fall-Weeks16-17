@@ -3,27 +3,32 @@ editorcoder
 SRJC CS55.13 Fall 2025
 Weeks 16-17: Assignment 16: Final Hybrid Mobile App  
 CardListings.tsx
-2025-12-07
+2025-12-09
 */
 
 // Card listings component
 
 // Import React hooks
 import { useState, useEffect, useRef } from "react";
-// Import React Router v5 hooks
+// Import React Router hooks
 import { useHistory, useLocation, Link } from "react-router-dom";
 // Import CardFilters component
 import CardFilters, { FilterState } from "./CardFilters";
 // Import Card CSS styles
 import styles from "./Card.module.css";
-// Import application-level types
+// Import TypeScript types
 import type { CoreCard, Avatar, Territory } from "../lib/wordpress/types";
 
+// Union type for card items
 type CardItem = CoreCard | Avatar | Territory;
 
+// Interface for card listings component props
 interface CardListingsProps {
+  // Optional initial core cards array
   initialCards?: CoreCard[];
+  // Optional initial avatars array
   initialAvatars?: Avatar[];
+  // Optional initial territories array
   initialTerritories?: Territory[];
 }
 
@@ -33,6 +38,7 @@ function buildFilterQueryString(filters: FilterState): string {
   const queryParams = new URLSearchParams();
 
   // Iterate through all filter entries
+  // Loop through each filter key-value pair
   for (const [key, value] of Object.entries(filters)) {
     // Skip empty strings and default sort value
     if (value === "" || value === "title") {
@@ -318,8 +324,10 @@ export default function CardListings({
   initialTerritories = [],
 }: CardListingsProps) {
   // Get router instance for navigation (React Router v5)
+  // Get history object for navigation
   const history = useHistory();
   // Get location for URL search params (React Router v5)
+  // Get location object for accessing URL
   const location = useLocation();
 
   // Helper function to parse searchParams into filters object
@@ -327,6 +335,7 @@ export default function CardListings({
     params: URLSearchParams | Record<string, string>
   ): FilterState => {
     // Convert URLSearchParams or object to a plain object for easier access
+    // Convert params to plain object if needed
     const paramsObj =
       params instanceof URLSearchParams
         ? Object.fromEntries(params.entries())
@@ -418,8 +427,19 @@ export default function CardListings({
     }
   };
 
-  // Parse initial filters from URL search params
-  const searchParams = new URLSearchParams(location.search);
+  // Check if this is a page reload to reset filters
+  // Determine if page was reloaded
+  const isReload = typeof window !== "undefined" && (() => {
+    // Get performance navigation entries
+    const perfEntries = performance.getEntriesByType('navigation') as PerformanceNavigationTiming[];
+    // Check if navigation type is reload
+    return perfEntries.length > 0 && perfEntries[0].type === 'reload';
+  })();
+
+  // Parse initial filters from URL search params, or use defaults on reload
+  // Create search params from URL or empty on reload
+  const searchParams = isReload ? new URLSearchParams() : new URLSearchParams(location.search);
+  // Parse filters from search params
   const initialFilters = parseSearchParamsToFilters(searchParams);
 
   // Initialize filters state with initial filters
@@ -442,9 +462,46 @@ export default function CardListings({
   const lastQueryString = useRef("");
   // Ref to track the last URL search params string to detect changes
   const lastSearchParamsString = useRef("");
+  // Ref to track if we've restored from sessionStorage to avoid doing it multiple times
+  const hasRestoredFromStorage = useRef(false);
+
+  // Clear sessionStorage and URL query params on page reload to reset filters
+  useEffect(() => {
+    if (isReload) {
+      // Clear sessionStorage
+      sessionStorage.removeItem("tab1FilterQuery");
+      // Clear URL query params if on Tab1
+      if (location.pathname === "/tab1" && location.search) {
+        history.replace("/tab1");
+      }
+    }
+  }, [isReload, location.pathname, location.search, history]); // Run on mount and when location changes
+
+  // Restore filters from sessionStorage on mount if URL has no query params
+  useEffect(() => {
+    // Only restore once and only if we're on Tab1 with no query params
+    if (
+      !hasRestoredFromStorage.current &&
+      location.pathname === "/tab1" &&
+      !location.search &&
+      typeof window !== "undefined"
+    ) {
+      const savedQueryString = sessionStorage.getItem("tab1FilterQuery");
+      if (savedQueryString) {
+        hasRestoredFromStorage.current = true;
+        // Restore query params to URL
+        history.replace(location.pathname + savedQueryString);
+      }
+    }
+  }, [location.pathname, location.search, history]);
 
   // Sync filters from URL search params when they change (e.g., browser back button)
   useEffect(() => {
+    // Skip URL sync on reload - filters should reset to defaults
+    if (isReload) {
+      return;
+    }
+
     // Get current search params as string for comparison
     const currentSearchParamsString = location.search;
 
@@ -506,7 +563,7 @@ export default function CardListings({
         isUpdatingFromUrl.current = false;
       }, 0);
     }
-  }, [location.search, filters]); // Re-run effect when URL search params or filters change
+  }, [location.search, filters, isReload]); // Re-run effect when URL search params or filters change
 
   // Sync filters with URL search params
   useEffect(() => {
@@ -523,9 +580,19 @@ export default function CardListings({
         if (location.pathname + location.search !== location.pathname + newPath) {
           history.push(location.pathname + newPath);
         }
+        
+        // Save query string to sessionStorage when on Tab1 (for persistence across tab navigation)
+        if (location.pathname === "/tab1" && typeof window !== "undefined") {
+          if (queryString) {
+            sessionStorage.setItem("tab1FilterQuery", `?${queryString}`);
+          } else {
+            // Clear sessionStorage if filters are reset
+            sessionStorage.removeItem("tab1FilterQuery");
+          }
+        }
       }
     }
-  }, [history, location.pathname, filters]); // Re-run effect when router, pathname, or filters change
+  }, [history, location.pathname, location.search, filters]); // Re-run effect when router, pathname, search params, or filters change
 
   // Filter and sort content based on filter state
   useEffect(() => {
@@ -548,11 +615,15 @@ export default function CardListings({
     setContent(filteredContent);
   }, [filters, initialCards, initialAvatars, initialTerritories]); // Re-run effect when filters or initial data change
 
+  // Return card listings with filters
   return (
     <>
+      {/* Render card filters component */}
       <CardFilters filters={filters} setFilters={setFilters} />
 
+      {/* Render card deck section */}
       <section className={styles.cardDeck}>
+        {/* Check if content is empty */}
         {content.length === 0 ? (
           <p className={styles.noCardsFound}>
             No cards found matching the current filters.
@@ -584,7 +655,7 @@ export default function CardListings({
 
           // Determine border class based on content type
           let borderClass = styles.cardBorderCore;
-          if (contentType === "Avatars") {
+          if (isAvatar) {
             borderClass = styles.cardBorderAvatar;
           } else if (contentType === "Territories") {
             borderClass = styles.cardBorderTerritory;
@@ -594,7 +665,7 @@ export default function CardListings({
           let backgroundColorClass = "";
           if (isCoreCard && (item as CoreCard).type) {
             backgroundColorClass = styles[`cardColor${(item as CoreCard).type}`];
-          } else if (contentType === "Avatars") {
+          } else if (isAvatar) {
             backgroundColorClass = styles.cardColorAvatar;
           } else if (contentType === "Territories") {
             backgroundColorClass = styles.cardColorTerritory;

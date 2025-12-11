@@ -3,9 +3,10 @@ editorcoder
 SRJC CS55.13 Fall 2025
 Weeks 16-17: Assignment 16: Final Hybrid Mobile App  
 avatars.ts
-2025-12-07
+2025-12-10
 */
 
+// Import TypeScript types for WordPress API responses and application data structures
 import type { WordPressAvatarPost, Avatar } from "./types";
 
 // Define REST endpoint URL
@@ -14,14 +15,19 @@ const avatarDataURL =
 
 // Helper function to fetch and parse JSON data from WordPress API
 async function fetchAvatarsData(): Promise<WordPressAvatarPost[]> {
+  // Declare variable to store parsed JSON data
   let jsonObj: WordPressAvatarPost[]; // Declare variable to store parsed JSON data
 
+  // Attempt to fetch data from API
   try {
     // Get JSON data from REST endpoint using fetch API
     const response = await fetch(avatarDataURL);
+    // Check if response is successful
     if (!response.ok) {
+      // Throw error if response is not OK
       throw new Error(`HTTP error! status: ${response.status}`);
     }
+    // Parse JSON response
     jsonObj = await response.json();
   } catch (error) {
     // Handle request errors
@@ -37,15 +43,17 @@ export async function getSortedAvatarsData(): Promise<Avatar[]> {
   // Read avatars and return metadata sorted by title
   const jsonObj = await fetchAvatarsData(); // Fetch avatars data from API
 
-  // Sort array by title alphabetically
+  // Sort function to compare avatars by title
   jsonObj.sort(function (a, b) {
-    // Sort array by title in alphabetical order
+    // Get title A with fallback to empty string
     const titleA = a.acf?.title || "";
+    // Get title B with fallback to empty string
     const titleB = b.acf?.title || "";
-    return titleA.localeCompare(titleB); // Compare titles using locale-aware string comparison
+    // Compare titles using locale-aware string comparison
+    return titleA.localeCompare(titleB); 
   }); // End sort function
 
-  // Process all avatars and get their image URLs
+  // Map each avatar to simplified data structure
   const avatarData = jsonObj.map((item) => {
     return {
       // Return simplified avatar object
@@ -71,9 +79,8 @@ export async function getSortedAvatarsData(): Promise<Avatar[]> {
 // Return specific avatar data (client-side)
 export async function getAvatarData(id: string | number): Promise<Avatar> {
   // Read one avatar and return data plus metadata
-  const jsonObj = await fetchAvatarsData(); // Fetch avatars data from API
-
-  // find object value in array that has matching id
+  const jsonObj = await fetchAvatarsData(); 
+  // Filter array to find matching avatar
   const objMatch = jsonObj.filter((obj) => {
     // Filter array to find avatar with matching ID
     return (
@@ -84,6 +91,7 @@ export async function getAvatarData(id: string | number): Promise<Avatar> {
 
   // extract object value in filtered array if any
   let objReturned: WordPressAvatarPost; // Declare variable to store matched avatar object
+  // Check if match was found
   if (objMatch.length > 0) {
     // Check if matching avatar was found
     objReturned = objMatch[0]; // Use first matching avatar
@@ -92,6 +100,7 @@ export async function getAvatarData(id: string | number): Promise<Avatar> {
     objReturned = {} as WordPressAvatarPost; // Set empty object as fallback
   } // End if-else block
 
+  // Return transformed avatar data
   return {
     // Return avatar data object
     id: objReturned.id ? objReturned.id.toString() : null, // Convert id to string or use null

@@ -3,39 +3,65 @@ editorcoder
 SRJC CS55.13 Fall 2025
 Weeks 16-17: Assignment 16: Final Hybrid Mobile App  
 index.html
-2025-12-07
+2025-12-10
 -->
 
 <!-- HTML document -->
 
 <!-- Import Ionic components -->
+<!-- HTML5 document type declaration -->
 <!DOCTYPE html>
+<!-- Root HTML element with English language attribute -->
 <html lang="en">
+  <!-- Document head section containing metadata and links -->
   <head>
+    <!-- Character encoding declaration -->
     <meta charset="utf-8" />
+    <!-- Page title displayed in browser tab -->
     <title>Ionic App</title>
     
+    <!-- Base URL for resolving relative URLs -->
     <base href="/" />
     
+    <!-- Google Fonts preconnect for performance -->
+    <!-- Preconnect to Google Fonts API for faster font loading -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <!-- Preconnect to Google Fonts static domain with cross-origin attribute -->
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <!-- Color scheme preference (light mode) -->
     <meta name="color-scheme" content="light" />
+    <!-- Theme color for browser UI elements -->
+    <meta name="theme-color" content="#4a3f35" />
+    <!-- Viewport meta tag for responsive mobile design -->
     <meta
       name="viewport"
       content="viewport-fit=cover, width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"
     />
+    <!-- Disable automatic phone number detection and linking -->
     <meta name="format-detection" content="telephone=no" />
+    <!-- Disable tap highlight on Windows mobile browsers -->
     <meta name="msapplication-tap-highlight" content="no" />
     
+    <!-- Link to web app manifest file -->
     <link rel="manifest" href="/manifest.json" />
     
+    <!-- Favicon link for browser tab icon -->
     <link rel="shortcut icon" type="image/png" href="/favicon.png" />
     
-    <!-- add to homescreen for ios -->
+    <!-- Add to homescreen for ios -->
+    <!-- Enable mobile web app capabilities -->
     <meta name="mobile-web-app-capable" content="yes" />
+    <!-- Title for iOS home screen icon -->
     <meta name="apple-mobile-web-app-title" content="Ionic App" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <!-- iOS status bar style (black with translucent background) -->
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   </head>
+  <!-- Document body section containing visible content -->
   <body>
+    <!-- Root div element where React app will be mounted -->
     <div id="root"></div>
+    <!-- Main application entry point script -->
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

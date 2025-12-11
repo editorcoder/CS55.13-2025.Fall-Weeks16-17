@@ -3,7 +3,7 @@ editorcoder
 SRJC CS55.13 Fall 2025
 Weeks 16-17: Assignment 16: Final Hybrid Mobile App  
 CardFilters.tsx
-2025-12-07
+2025-12-10
 */
 
 // Filters for Card Listings
@@ -15,11 +15,17 @@ import Tag from "./Tag";
 // Import CardFilters CSS styles
 import styles from "./CardFilters.module.css";
 
+// Interface for filter select component props
 interface FilterSelectProps {
+  // Label text for select
   label: string;
+  // Array of option values
   options: string[];
+  // Current selected value
   value: string;
+  // Change event handler
   onChange: (event: React.ChangeEvent<HTMLSelectElement>) => void;
+  // Input name attribute
   name: string;
 }
 
@@ -31,11 +37,15 @@ function FilterSelect({
   onChange,
   name,
 }: FilterSelectProps) {
+  // Return select dropdown component
   return (
     <div>
+      {/* Render label */}
       <label>
         {label}
+        {/* Render select element */}
         <select value={value} onChange={onChange} name={name}>
+          {/* Map over options to render each option */}
           {options.map((option, index) => (
             <option value={option} key={index}>
               {option === "" ? "All" : option}
@@ -47,10 +57,15 @@ function FilterSelect({
   );
 }
 
+// Interface for filter checkbox component props
 interface FilterCheckboxProps {
+  // Label text for checkbox
   label: string;
+  // Whether checkbox is checked
   checked: boolean;
+  // Change event handler
   onChange: () => void;
+  // Input name attribute
   name: string;
 }
 
@@ -61,30 +76,43 @@ function FilterCheckbox({
   onChange,
   name,
 }: FilterCheckboxProps) {
+  // Return checkbox component
   return (
     <div>
+      {/* Render label with checkbox styling */}
       <label className={styles.checkboxLabel}>
+        {/* Render checkbox input */}
         <input type="checkbox" checked={checked} onChange={onChange} name={name} />
+        {/* Render label text */}
         <span>{label}</span>
       </label>
     </div>
   );
 }
 
+// Interface for cost filter component props
 interface CostFilterProps {
+  // Minimum cost value
   costMin: number;
+  // Maximum cost value
   costMax: number;
+  // Change event handler
   onChange: (values: { costMin: number; costMax: number }) => void;
 }
 
 // Component for cost range filter with sliders
 function CostFilter({ costMin, costMax, onChange }: CostFilterProps) {
+  // Return cost filter component
   return (
     <div>
+      {/* Render label */}
       <label>
         Cost:
+        {/* Render minimum cost filter container */}
         <div className={styles.costFilterContainer}>
+          {/* Display minimum value */}
           <span>Min: {costMin}</span>
+          {/* Render range input for minimum */}
           <input
             type="range"
             min="1"
@@ -104,8 +132,11 @@ function CostFilter({ costMin, costMax, onChange }: CostFilterProps) {
             }}
           />
         </div>
+        {/* Render maximum cost filter container */}
         <div className={styles.costFilterContainer}>
+          {/* Display maximum value */}
           <span>Max: {costMax}</span>
+          {/* Render range input for maximum */}
           <input
             type="range"
             min="1"
@@ -130,20 +161,29 @@ function CostFilter({ costMin, costMax, onChange }: CostFilterProps) {
   );
 }
 
+// Interface for level filter component props
 interface LevelFilterProps {
+  // Minimum level value
   levelMin: number;
+  // Maximum level value
   levelMax: number;
+  // Change event handler
   onChange: (values: { levelMin: number; levelMax: number }) => void;
 }
 
 // Component for level range filter with sliders
 function LevelFilter({ levelMin, levelMax, onChange }: LevelFilterProps) {
+  // Return level filter component
   return (
     <div>
+      {/* Render label */}
       <label>
         Level:
+        {/* Render minimum level filter container */}
         <div className={styles.costFilterContainer}>
+          {/* Display minimum value */}
           <span>Min: {levelMin}</span>
+          {/* Render range input for minimum */}
           <input
             type="range"
             min="2"
@@ -163,8 +203,11 @@ function LevelFilter({ levelMin, levelMax, onChange }: LevelFilterProps) {
             }}
           />
         </div>
+        {/* Render maximum level filter container */}
         <div className={styles.costFilterContainer}>
+          {/* Display maximum value */}
           <span>Max: {levelMax}</span>
+          {/* Render range input for maximum */}
           <input
             type="range"
             min="2"
@@ -189,35 +232,58 @@ function LevelFilter({ levelMin, levelMax, onChange }: LevelFilterProps) {
   );
 }
 
+// Interface for filter state
 export interface FilterState {
+  // Content type filter
   contentType?: string;
+  // Sort option
   sort?: string;
+  // Type ability filter
   typeAbility?: boolean;
+  // Type item filter
   typeItem?: boolean;
+  // Type unit filter
   typeUnit?: boolean;
+  // Has catnip filter
   hasCatnip?: string;
+  // Has defense filter
   hasDefense?: string;
+  // Has attack filter
   hasAttack?: string;
+  // Cost minimum
   costMin?: number;
+  // Cost maximum
   costMax?: number;
+  // Archetype indoor filter
   archetypeIndoor?: boolean;
+  // Archetype outdoor filter
   archetypeOutdoor?: boolean;
+  // Archetype in-or-out filter
   archetypeInOrOut?: boolean;
+  // Environment indoor filter
   environmentIndoor?: boolean;
+  // Environment outdoor filter
   environmentOutdoor?: boolean;
+  // Level minimum
   levelMin?: number;
+  // Level maximum
   levelMax?: number;
+  // Index signature for additional properties
   [key: string]: string | number | boolean | undefined;
 }
 
+// Interface for card filters component props
 interface CardFiltersProps {
+  // Current filter state
   filters: FilterState;
+  // Function to update filter state
   setFilters: React.Dispatch<React.SetStateAction<FilterState>>;
 }
 
 // Main card filters component
 export default function CardFilters({ filters, setFilters }: CardFiltersProps) {
   // State to track whether the filters section is open
+  // Initialize open state to false
   const [isOpen, setIsOpen] = useState(false);
 
   // Handler for select dropdown changes
@@ -310,12 +376,6 @@ export default function CardFilters({ filters, setFilters }: CardFiltersProps) {
     }));
   };
 
-  // Helper function to update a single filter field
-  const updateField = (type: string, value: string | number) => {
-    // Update filters state with new value for specified field
-    setFilters({ ...filters, [type]: value });
-  };
-
   // Get sort display text
   // Helper function to convert sort value to readable text
   const getSortDisplayText = (sort?: string) => {
@@ -337,16 +397,22 @@ export default function CardFilters({ filters, setFilters }: CardFiltersProps) {
     return sort;
   };
 
+  // Return filters section
   return (
     <section className={styles.filter}>
+      {/* Render collapsible details element */}
       <details
         className={styles["filter-menu"]}
         open={isOpen}
         onToggle={(e) => setIsOpen(e.currentTarget.open)}
       >
+        {/* Render summary header */}
         <summary>
+          {/* Render summary content */}
           <div>
+            {/* Render toggle heading */}
             <h2>{isOpen ? "Hide Filters" : "Show Filters"}</h2>
+            {/* Render content type display */}
             <p className={styles["sorted-by"]}>
               {(filters.contentType || "Core Cards") === "Core Cards"
                 ? "Displaying Core Cards"
@@ -354,7 +420,9 @@ export default function CardFilters({ filters, setFilters }: CardFiltersProps) {
                   ? "Displaying Avatar Cards"
                   : "Displaying Territory Cards"}
             </p>
+            {/* Render separator */}
             <span className={styles["sorted-by-separator"]}> | </span>
+            {/* Render sort display */}
             <p className={styles["sorted-by"]}>
               Sorted by {getSortDisplayText(filters.sort || "title")}
             </p>
@@ -868,7 +936,10 @@ export default function CardFilters({ filters, setFilters }: CardFiltersProps) {
               key={`${type}-${value}`}
               type={type}
               value={displayValue}
-              updateField={updateField}
+              updateField={(type, value) => {
+                // Update filters state with new value for specified field
+                setFilters({ ...filters, [type]: value });
+              }}
             />
           );
         })}

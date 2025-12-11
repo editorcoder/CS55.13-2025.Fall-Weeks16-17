@@ -3,64 +3,102 @@ editorcoder
 SRJC CS55.13 Fall 2025
 Weeks 16-17: Assignment 16: Final Hybrid Mobile App  
 CoreCardDetail.tsx
-2025-12-07
+2025-12-10
 */
 
+// Import Ionic React UI components
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonSpinner } from '@ionic/react';
+// Import React hooks for state, side effects, and refs
 import { useEffect, useState, useRef } from 'react';
+// Import React Router hooks
 import { useParams } from 'react-router-dom';
+// Import local components
 import Header from '../components/Header';
 import BackToHomeLink from '../components/BackToHomeLink';
+// Import WordPress data functions
 import { getCoreCardData } from '../lib/wordpress/core-cards';
+// Import TypeScript types
 import type { CoreCard } from '../lib/wordpress/types';
+// Import Card CSS styles
 import styles from '../components/Card.module.css';
 
+// CoreCardDetail component for displaying core card details
 const CoreCardDetail: React.FC = () => {
+  // Get card ID from URL parameters
   const { id } = useParams<{ id: string }>();
+  // Initialize card data state
   const [cardData, setCardData] = useState<CoreCard | null>(null);
+  // Initialize loading state
   const [loading, setLoading] = useState(true);
+  // Initialize error state
   const [error, setError] = useState<string | null>(null);
+  // Create ref for card element
   const cardRef = useRef<HTMLElement>(null);
 
+  // Fetch card data when ID changes
   useEffect(() => {
+    // Async function to fetch card data
     const fetchCardData = async () => {
+      // Check if ID exists
       if (!id) {
+        // Set error if no ID provided
         setError('No card ID provided');
+        // Set loading to false
         setLoading(false);
+        // Exit early
         return;
       }
 
+      // Attempt to fetch data
       try {
+        // Set loading to true
         setLoading(true);
+        // Clear any previous errors
         setError(null);
+        // Fetch card data from API
         const data = await getCoreCardData(id);
+        // Update card data state
         setCardData(data);
       } catch (err) {
+        // Log error to console
         console.error('Error fetching card data:', err);
+        // Set error message
         setError('Failed to load card data. Please try again later.');
       } finally {
+        // Set loading to false when done
         setLoading(false);
       }
     };
 
+    // Call fetch function
     fetchCardData();
   }, [id]);
 
+  // Return page content
   return (
     <IonPage>
+      {/* Render page header */}
       <IonHeader>
+        {/* Render toolbar with header styling */}
         <IonToolbar className="header-toolbar">
+          {/* Render title */}
           <IonTitle>
+            {/* Render header content wrapper */}
             <div className="header-content">
               <Header />
             </div>
           </IonTitle>
         </IonToolbar>
       </IonHeader>
+      {/* Render page content */}
       <IonContent fullscreen>
+        {/* Render collapsible header */}
         <IonHeader collapse="condense">
+          {/* Render toolbar with header styling */}
           <IonToolbar className="header-toolbar">
+            {/* Render large title */}
             <IonTitle size="large">
+              {/* Render header content wrapper */}
               <div className="header-content">
                 <Header />
               </div>
@@ -68,30 +106,41 @@ const CoreCardDetail: React.FC = () => {
           </IonToolbar>
         </IonHeader>
 
+        {/* Render card title if card data exists */}
         {cardData && <h2>Card: {cardData.title}</h2>}
 
+        {/* Show loading spinner when loading */}
         {loading && (
           <div className="loading-container">
+            {/* Render loading spinner */}
             <IonSpinner name="crescent" />
+            {/* Render loading message */}
             <p>Loading card...</p>
           </div>
         )}
 
+        {/* Show error message if error exists */}
         {error && (
           <div className="error-container">
+            {/* Display error message */}
             <p>{error}</p>
           </div>
         )}
 
+        {/* Show card content when not loading, no error, and card data exists */}
         {!loading && !error && cardData && (
           <>
+            {/* Render card page section */}
             <section className={styles.cardPage}>
+              {/* Render card article with ref */}
               <article
                 ref={cardRef}
                 id="card-page-card"
                 className={`${styles.cardPageCard} ${styles.cardBorderCore} ${styles[`cardColor${cardData.type}`]}`}
               >
+                {/* Render card body */}
                 <div className={styles.cardBody}>
+                  {/* Render cost if available */}
                   {cardData.cost != null && (
                     <div
                       className={styles.cardCost}
@@ -100,9 +149,12 @@ const CoreCardDetail: React.FC = () => {
                       {cardData.cost}
                     </div>
                   )}
+                  {/* Render card title */}
                   <h3 className={styles.cardTitle}>{cardData.title}</h3>
+                  {/* Render card type heading */}
                   <h4 className={styles.cardType}>
                     {cardData.type}
+                    {/* Render subtype if available */}
                     {cardData.subtype != null && (
                       <span
                         aria-hidden="true"
@@ -113,6 +165,7 @@ const CoreCardDetail: React.FC = () => {
                       </span>
                     )}
                   </h4>
+                  {/* Render image container with stats */}
                   <div className={styles.cardImageContainer}>
                     {cardData.catnip != null && (
                       <div

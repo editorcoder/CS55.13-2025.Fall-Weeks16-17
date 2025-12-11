@@ -3,10 +3,44 @@ editorcoder
 SRJC CS55.13 Fall 2025
 Weeks 16-17: Assignment 16: Final Hybrid Mobile App  
 Tab3.css
-2025-12-07
+2025-12-09
 */
 
-.profile-welcome {
+/* Edit Profile button container */
+.edit-profile-button-container {
+  margin-bottom: 0.5rem;
   text-align: center;
+}
+
+/* Edit Profile button styling */
+.edit-profile-button {
+  --background: var(--color-ionic-button);
+  --background-activated: var(--color-ionic-button);
+  --background-hover: var(--color-ionic-button);
+  transform: scale(0.8);
+}
+
+/* Photo selection grid item */
+.photo-select-item {
+  padding: 0.5rem;
+  cursor: pointer;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin: 0.25rem;
+
+  &.selected {
+    border: 3px solid #3880ff;
+  }
+}
+
+/* Modal button container */
+.modal-button-container {
+  padding: 1rem;
+  text-align: center;
+}
+
+/* Edit Profile title styling */
+.edit-profile-title {
+  margin-left: 0.5rem;
 }
 

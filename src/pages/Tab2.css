@@ -3,12 +3,59 @@ editorcoder
 SRJC CS55.13 Fall 2025
 Weeks 16-17: Assignment 16: Final Hybrid Mobile App  
 Tab2.css
-2025-12-07
+2025-12-09
 */
 
-/* Center the camera FAB horizontally */
+/* Center the camera floating action button horizontally */
 ion-fab {
   left: 50%;
   transform: translateX(-50%);
+}
+
+/* Photo container with relative positioning for overlay */
+.photo-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+/* Delete button overlay positioned at top-right corner */
+.delete-button {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  z-index: 10;
+  --color: white;
+  --background: rgba(0, 0, 0, 0.5);
+  --border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  margin: 0;
+  --padding-start: 0;
+  --padding-end: 0;
+  --padding-top: 0;
+  --padding-bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &:hover {
+    --background: rgba(220, 53, 69, 0.8);
+  }
+
+  /* Ensure the icon inside the delete button is visible and properly sized */
+  ion-icon {
+    font-size: 20px;
+    width: 20px;
+    height: 20px;
+    color: white;
+  }
+}
+
+/* Camera floating action button styling */
+ion-fab-button {
+  --background: var(--color-ionic-button);
+  --background-activated: var(--color-ionic-button);
+  --background-hover: var(--color-ionic-button);
 }
 
